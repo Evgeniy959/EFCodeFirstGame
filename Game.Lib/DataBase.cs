@@ -2,36 +2,31 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
-//using Game.Model;
+using Game.Model;
 
 namespace Game.Lib
 {
-    public sealed class DataBase : DbContext
+    public class DataBase : DbContext
     {
+        public static string connectionStringFile => "/ConnectionString.txt";
         public DbSet<Game> TabGames { get; set; }
 
-        private DataBase() { }
-
-        public DataBase(DbContextOptions<DataBase> options)
-            : base(options)
+        protected DataBase() { }
+        public DataBase(DbContextOptions<DataBase> options) : base(options)
         {
             Database.EnsureCreated();
         }
-
         public static DataBase Init()
         {
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("connect_to_db_config.json");
-            var connectionString = builder
-                .Build()
-                .GetConnectionString("DefaultConnection");
-
-            var options = new DbContextOptionsBuilder<DataBase>()
-                .UseMySQL(connectionString)
-                .Options;
-
+            var options = new DbContextOptionsBuilder<DataBase>().UseMySQL(GetConnectionString(connectionStringFile)).Options;
             return new DataBase(options);
         }
+
+        public static string GetConnectionString(string connectionStringFile)
+        {
+            var streamReader = new StreamReader(Directory.GetCurrentDirectory() + connectionStringFile);
+            return streamReader.ReadToEnd();
+        }
+
     }
 }
