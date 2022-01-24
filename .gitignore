@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 Game.Lib/connect_to_db_config.json
+Game.Lib/ConnectionString.txt
