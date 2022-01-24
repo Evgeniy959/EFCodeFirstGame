@@ -24,7 +24,7 @@ namespace JsonFile
                     DefaultConnection = "Server=mysql60.hostland.ru; Database = host1323541_sbd16; Uid = host1323541_itstep; Pwd = 269f43dc;"
                 }              
             };
-            using var file = new FileStream("connect_to_db_config.json", FileMode.Truncate);
+            using var file = new FileStream("connect_to_db_config.json", FileMode.OpenOrCreate);
             JsonSerializer.SerializeAsync(file, connect);
         }
     }
