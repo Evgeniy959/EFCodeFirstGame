@@ -30,7 +30,6 @@ namespace Game.Lib
             var options = new DbContextOptionsBuilder<DataBase>()
                 .UseMySQL(connectionString)
                 .Options;
-
             return new DataBase(options);
         }
     }
